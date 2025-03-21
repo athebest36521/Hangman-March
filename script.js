@@ -12,7 +12,8 @@ const wordList = [
     'celebration',
     'greenery',
     'shenanigans',
-    'tradition'
+    'tradition',
+    'pinch'
   ]
   
   //setting Game Variables
@@ -24,7 +25,10 @@ const wordList = [
   
   function startGame (level) {
     selectedWord = getRandomWord(level)
-  
+  updateDifficultyDisplay(level)
+    displayedWord = '_'.repeat(selectedWord.length)
+    document.getElementById('wordDisplay').textContent = displayedWord.split('').join(' ')
+    
     //Hide Difficulty Selection and Show Game Area & Difficulty Box
   
     //Add d-none to the #difficultySelection div
@@ -48,3 +52,12 @@ const wordList = [
     //Select and return a random word from the filtered list
     return filteredWords[Math.floor(Math.random() * filteredWords.length)]
   }
+function updateDifficultyDisplay(level){
+    let difficultyBox = document.getElementById('difficultyBox');
+    difficultyBox.classList.remove('easy', 'medium', 'hard')
+    difficultyBox.textContent=`Difficulty: ${level.charAt(0).toUpperCase() + level.slice(1)}`;
+difficultyBox.classList.add(level)
+}
+
+
+
