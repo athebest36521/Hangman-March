@@ -1,4 +1,4 @@
-alert('This game is under construction!');
+alert('Final Touches are being made to the Game! Please be patient!');
 
 const wordList = [
   'gold',
@@ -19,7 +19,7 @@ const wordList = [
 //setting Game Variables
 let selectedWord = ''
 let displayedWord = ''
-let wrongGuess = 0
+let wrongGuesses = 0
 let guessedLetters = []
 const maxMistakes = 6
 
@@ -104,4 +104,68 @@ function guessLetter() {
   }
   inputField.value = '' //Clear the input field
   inputField.focus() //Focus the input field
+}
+function wrongGuess(guessedLetter) {
+  //Increment the number of wrongGuess counter
+  wrongGuesses++
+
+  //add the guessed letter to the HTML div
+  document.getElementById('wrongLetters').textContent += ` ${guessedLetter}`
+  //Check if the number of wrongGuesses is equal to the maxMistakes
+  //If the number of wrongGuesses is equal to the maxMistakes, end the game
+
+
+  //Update the hangman image
+  document.getElementById('shamrock').src = `images/shamrock${6 - wrongGuesses}.png`
+
+
+
+  if (wrongGuesses === maxMistakes) {
+    endGame(false)
+  }
+}
+//Create a function to update the displayed word with the correctly guessed letter
+function correctGuess(guessedLetter) {
+  //Convert the displayed word to an array
+  newDisplayedWord = ''
+  //Create a for loop to iterate over the selected word
+  for (let i = 0; i < selectedWord.length; i++) {
+    //Check if the letter at the current index matches the guessed letter
+    if (selectedWord[i] === guessedLetter) {  
+      //Update the displayed word with the correctly guessed letter
+      newDisplayedWord += guessedLetter
+    }
+    else {
+      //Update the displayed word with the correctly guessed letter
+      newDisplayedWord += displayedWord[i]
+    }
+  }
+  //Update the displayed word
+  displayedWord = newDisplayedWord
+  document.getElementById('wordDisplay').textContent = displayedWord
+    .split('')
+    .join(' ')
+  //Check if the displayed word is equal to the selected word
+  if (!displayedWord.includes('_')) {
+    endGame(true)
+  }
+}
+function endGame(won) {
+  //Display the end game message
+  if (won) {
+    setTimeout(() => {
+      alert('Congratulations! You have guessed the word correctly!')
+    }, 500)
+  }
+  else {
+    alert(`Game Over! The word was ${selectedWord}`)
+  }
+
+  //reloads page to Reset the game
+  setTimeout(() => {
+    location.reload()
+  }, 2000)
+  function restartGame() {
+    location.reload()
+  }
 }
