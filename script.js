@@ -116,7 +116,7 @@ function wrongGuess(guessedLetter) {
 
 
   //Update the hangman image
-  document.getElementById('shamrock').src = `images/shamrock${6 - wrongGuesses}.png`
+  document.getElementById('shamrock').src = `imgs/360_F_517383341_8nWEFfM1KL3K5LNTjUDrne3x0kZiuxuj.jpg ${6 - wrongGuesses}.png`
 
 
 
