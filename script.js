@@ -108,6 +108,15 @@ function guessLetter() {
 function wrongGuess(guessedLetter) {
   //Increment the number of wrongGuess counter
   wrongGuesses++
+//Update the hangman image based on the number of wrong guesses
+  //Check if the number of wrongGuesses is equal to the maxMistakes
+  //If the number of wrongGuesses is equal to the maxMistakes, end the game and display the final hangman image
+  //Update the hangman image based on the number of wrong guesses
+  document.getElementById('hangman').src = `imgs/Hangman${wrongGuesses}.png`
+  //Check if the number of wrongGuesses is equal to the maxMistakes
+
+  
+
 
   //add the guessed letter to the HTML div
   document.getElementById('wrongLetters').textContent += ` ${guessedLetter}`
@@ -115,12 +124,12 @@ function wrongGuess(guessedLetter) {
   //If the number of wrongGuesses is equal to the maxMistakes, end the game
 
 
-  //Update the hangman image
-  document.getElementById('shamrock').src = `imgs/360_F_517383341_8nWEFfM1KL3K5LNTjUDrne3x0kZiuxuj.jpg ${6 - wrongGuesses}.png`
 
 
 
   if (wrongGuesses === maxMistakes) {
+    document.getElementById('hangman').src = `imgs/FinalHangman6.png`
+    //Display the end game message 
     endGame(false)
   }
 }
@@ -177,3 +186,7 @@ const toggleDarkMode = () => {
   document.querySelector('header').classList.toggle("dark-mode");
   document.querySelector('footer').classList.toggle("dark-mode");
 };
+//add the restartBtn to reload the page
+document.getElementById('restartBtn').addEventListener('click', () => {
+  location.reload();
+});
