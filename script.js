@@ -1,4 +1,4 @@
-alert('Final Touches are being made to the Game! Please be patient!');
+//alert('Final Touches are being made to the Game! Please be patient!');
 
 const wordList = [
   'gold',
@@ -22,31 +22,36 @@ let displayedWord = ''
 let wrongGuesses = 0
 let guessedLetters = []
 const maxMistakes = 6
-
+const winSound = new Audio('audios/mixkit-winning-chimes-2015.wav'); 
+const loseSound = new Audio('audios/mixkit-funny-fail-low-tone-2876.wav');
+document.addEventListener("keydown", function(event) {
+  if (event.key === 'Enter') {
+    guessLetter()
+  }
+});
 function startGame(level) {
-  selectedWord = getRandomWord(level)
+  selectedWord = getRandomWord(level);
 
-  //Update Difficulty Display Div
-  updateDifficultyDisplay(level)
+  // Update Difficulty Display Div
+  updateDifficultyDisplay(level);
 
-  //Create the placeholder's for the selected word
-  displayedWord = '_'.repeat(selectedWord.length)
-  //display the updated Word
+  // Create the placeholder's for the selected word
+  displayedWord = '_'.repeat(selectedWord.length);
+
+  // Display the updated Word
   document.getElementById('wordDisplay').textContent = displayedWord
     .split('')
-    .join(' ')
+    .join(' ');
 
-  //Hide Difficulty Selection and Show Game Area & Difficulty Box
-  //Add d-none to the #difficultySelection div
-  document.getElementById('difficultySelection').classList.add('d-none')
+  // Hide Difficulty Selection and Show Game Area & Difficulty Box
+  document.getElementById('difficultySelection').classList.add('d-none');
+  document.getElementById('gameArea').classList.remove('d-none');
+  document.getElementById('difficultyBox').classList.remove('d-none');
+  document.getElementById('gameArea').classList.add('d-block');
+  document.getElementById('difficultyBox').classList.add('d-block');
 
-  //remove d-none from #difficultyBox & #gameArea
-  document.getElementById('gameArea').classList.remove('d-none')
-  document.getElementById('difficultyBox').classList.remove('d-none')
-
-  //add d-block to #difficultyBox & #gameArea
-  document.getElementById('gameArea').classList.add('d-block')
-  document.getElementById('difficultyBox').classList.add('d-block')
+  // Show the Restart Game button
+  document.getElementById('restartBtn').style.display = 'block';
 }
 
 function getRandomWord(level) {
@@ -78,14 +83,14 @@ function guessLetter() {
   let guessedLetter = inputField.value.toLowerCase()
   //Check if the input is a valid letter(A-Z)
   if (!guessedLetter.match(/^[a-z]$/)) {
-    alert('Please enter a valid letter between A-Z!')
+    document.getElementById('messages').textContent = 'Please enter a valid letter (A-Z)';
     inputField.value = '' //Clear the input field
     return //Exit the function
   }
 
   //Check if the letter has already been guessed
   if (guessedLetters.includes(guessedLetter)) {
-    alert(`You have already guessed ${guessedLetter}, Try a different letter!`)
+    document.getElementById('messages').textContent = `You have already guessed ${guessedLetter}, Try a different letter!`;
     inputField.value = '' //Clear the input field
     return //Exit the function
   }
@@ -107,30 +112,19 @@ function guessLetter() {
 }
 function wrongGuess(guessedLetter) {
   //Increment the number of wrongGuess counter
-  wrongGuesses++
-//Update the hangman image based on the number of wrong guesses
-  //Check if the number of wrongGuesses is equal to the maxMistakes
-  //If the number of wrongGuesses is equal to the maxMistakes, end the game and display the final hangman image
-  //Update the hangman image based on the number of wrong guesses
-  document.getElementById('hangman').src = `imgs/Hangman${wrongGuesses}.png`
-  //Check if the number of wrongGuesses is equal to the maxMistakes
+  // Increment the number of wrong guesses
+  wrongGuesses++;
 
-  
+  // Update the hangman image based on the number of wrong guesses
+  document.getElementById('hangman').src = `imgs/Hangman${wrongGuesses}.png`;
 
+  // Add the guessed letter to the HTML div
+  document.getElementById('wrongLetters').textContent += ` ${guessedLetter}`;
 
-  //add the guessed letter to the HTML div
-  document.getElementById('wrongLetters').textContent += ` ${guessedLetter}`
-  //Check if the number of wrongGuesses is equal to the maxMistakes
-  //If the number of wrongGuesses is equal to the maxMistakes, end the game
-
-
-
-
-
+  // Check if the number of wrong guesses is equal to the maxMistakes
   if (wrongGuesses === maxMistakes) {
-    document.getElementById('hangman').src = `imgs/FinalHangman6.png`
-    //Display the end game message 
-    endGame(false)
+    document.getElementById('hangman').src = `imgs/FinalHangman6.png`; // Final hangman image
+    endGame(false); // End the game with a loss
   }
 }
 //Create a function to update the displayed word with the correctly guessed letter
@@ -160,23 +154,25 @@ function correctGuess(guessedLetter) {
   }
 }
 function endGame(won) {
-  //Display the end game message
+  // Disable further input
+  document.getElementById('letterInput').disabled = true;
+  document.getElementById('guessBtn').disabled = true;
+
+  // Display the end game message
   if (won) {
+    winSound.play();
     setTimeout(() => {
-      alert('Congratulations! You have guessed the word correctly!')
-    }, 500)
-  }
-  else {
-    alert(`Game Over! The word was ${selectedWord}`)
+      document.getElementById('messages').textContent = 'Congratulations! You have won the game!';
+    }, 500);
+  } else {
+    loseSound.play();
+    document.getElementById('messages').textContent = `Sorry! You have lost the game! The word was "${selectedWord}".`;
   }
 
-  //reloads page to Reset the game
+  // Reload the page to reset the game after a delay
   setTimeout(() => {
-    location.reload()
-  }, 2000)
-  function restartGame() {
-    location.reload()
-  }
+    location.reload();
+  }, 5000); // 5-second delay to let the player see the result
 }
 const toggleDarkMode = () => {
   document.body.classList.toggle("dark-mode");
