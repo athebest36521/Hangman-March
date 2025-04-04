@@ -193,17 +193,33 @@ const toggleDarkMode = () => {
 };
 //add the restartBtn to reload the page
 
-function restart(){
+function restart() {
   document.getElementById('restartBtn').addEventListener('click', () => {
-    selectedWord = ''
-    displayedWord = ''
-  wrongGuesses = 0
-  guessedLetters = [];
-  document.getElementById('difficultySelection').classList.remove('d-none');
-  document.getElementById('gameArea').classList.add('d-none');
-  document.getElementById('difficultyBox').classList.add('d-none');
-  document.getElementById('gameArea').classList.remove('d-block');
-  document.getElementById('difficultyBox').classList.remove('d-block');
-
+    // Redirect to the home page (index.html)
+    window.location.href = 'index.html';
   });
-}
+
+    // Reset game variables
+    selectedWord = '';
+    displayedWord = '';
+    wrongGuesses = 0;
+    guessedLetters = [];
+    winsnumber = 0; // Reset win count
+    lossnumber = 0; // Reset loss count
+    // Reset UI elements
+    document.getElementById('wordDisplay').textContent = '';
+    document.getElementById('wrongLetters').textContent = '';
+    document.getElementById('messages').textContent = '';
+    document.getElementById('guessnbr').textContent = '';
+    document.getElementById('letterInput').value = '';
+    document.getElementById('letterInput').disabled = false;
+    document.getElementById('guessBtn').disabled = false;
+    document.getElementById('hangman').src = 'imgs/Hangman.png'; // Reset hangman image
+
+    // Reset visibility of game areas
+    document.getElementById('difficultySelection').classList.remove('d-none');
+    document.getElementById('gameArea').classList.add('d-none');
+    document.getElementById('difficultyBox').classList.add('d-none');
+    document.getElementById('gameArea').classList.remove('d-block');
+    document.getElementById('difficultyBox').classList.remove('d-block');
+  };
