@@ -21,9 +21,12 @@ let selectedWord = ''
 let displayedWord = ''
 let wrongGuesses = 0
 let guessedLetters = []
+let winsnumber = 0
+let lossnumber = 0
 const maxMistakes = 6
 const winSound = new Audio('audios/mixkit-winning-chimes-2015.wav'); 
 const loseSound = new Audio('audios/mixkit-funny-fail-low-tone-2876.wav');
+
 document.addEventListener("keydown", function(event) {
   if (event.key === 'Enter') {
     guessLetter()
@@ -155,25 +158,31 @@ function correctGuess(guessedLetter) {
 }
 function endGame(won) {
   // Disable further input
+  
   document.getElementById('letterInput').disabled = true;
   document.getElementById('guessBtn').disabled = true;
+  
 
   // Display the end game message
   if (won) {
     winSound.play();
+    winsnumber++
     setTimeout(() => {
       document.getElementById('messages').textContent = 'Congratulations! You have won the game!';
     }, 500);
   } else {
     loseSound.play();
+    lossnumber++
     document.getElementById('messages').textContent = `Sorry! You have lost the game! The word was "${selectedWord}".`;
   }
-
-  // Reload the page to reset the game after a delay
-  setTimeout(() => {
-    location.reload();
-  }, 5000); // 5-second delay to let the player see the result
+document.getElementById('guessnbr').textContent = `You have won ${winsnumber},and have lost ${lossnumber}.` 
+selectedWord = ''
+displayedWord = ''
+wrongGuesses = 0
+guessedLetters = [];
+restart().addEventListener
 }
+
 const toggleDarkMode = () => {
   document.body.classList.toggle("dark-mode");
   document.querySelectorAll('button').forEach(button => {
@@ -183,6 +192,18 @@ const toggleDarkMode = () => {
   document.querySelector('footer').classList.toggle("dark-mode");
 };
 //add the restartBtn to reload the page
-document.getElementById('restartBtn').addEventListener('click', () => {
-  location.reload();
-});
+
+function restart(){
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    selectedWord = ''
+    displayedWord = ''
+  wrongGuesses = 0
+  guessedLetters = [];
+  document.getElementById('difficultySelection').classList.remove('d-none');
+  document.getElementById('gameArea').classList.add('d-none');
+  document.getElementById('difficultyBox').classList.add('d-none');
+  document.getElementById('gameArea').classList.remove('d-block');
+  document.getElementById('difficultyBox').classList.remove('d-block');
+
+  });
+}

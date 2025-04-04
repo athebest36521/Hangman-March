@@ -1,6 +1,6 @@
 body{
-    background-image: to-right, #000000, #ffffff;
-    font-family: Arial, sans-serif;
+    background-color:rgb(125, 255, 125);
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,5 +9,10 @@ body{
     background-color: black;
     color: white;
   }
+.imagelep{
+    width: 250px;
+    height:250px;
+    display:block
 
+}
   
